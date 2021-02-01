@@ -1,0 +1,3 @@
+include ':OneActivityLib'
+include ':OneActivityDemo'
+rootProject.name = "OneActivity"
