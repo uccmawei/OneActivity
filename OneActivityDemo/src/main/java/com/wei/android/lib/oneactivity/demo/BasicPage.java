@@ -30,6 +30,7 @@ public abstract class BasicPage extends Page {
             @Override
             public void onInflateFinished(View view) {
                 mPageView = view;
+                mRootView.addView(mPageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mViewBackground = view.findViewById(R.id.mViewBackground);
                 mLayoutContainer = view.findViewById(R.id.mLayoutContainer);
                 Utils.inflate(mPageActivity, getLayoutRes(), new Utils.OnInflateListener() {
@@ -61,7 +62,7 @@ public abstract class BasicPage extends Page {
         }
 
         // 先不显示，等会儿走动画
-        mPageView.setVisibility(View.GONE);
+        mRootView.setVisibility(View.GONE);
 
         // 正常左右切换动画
         final List<Page> tempPausePageList = new ArrayList<>();
@@ -73,17 +74,17 @@ public abstract class BasicPage extends Page {
         }
 
         // 开始左右切换的动画
-        mPageView.post(new Runnable() {
+        mRootView.post(new Runnable() {
             @Override
             public void run() {
-                mPageView.setVisibility(View.VISIBLE);
+                mRootView.setVisibility(View.VISIBLE);
 
                 final int width = getFloatContainer().getWidth();
                 Utils.makeAnimation(width, 0, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
                         for (int i = 0; i < tempPausePageList.size(); i++) {
-                            tempPausePageList.get(i).mPageView.setTranslationX(-PAGE_MOVE_RATE * (width - animValue));
+                            tempPausePageList.get(i).mRootView.setTranslationX(-PAGE_MOVE_RATE * (width - animValue));
                         }
                         mLayoutContainer.setTranslationX(animValue);
                         mViewBackground.setAlpha((1.0f * (width - animValue)) / width);
@@ -123,7 +124,7 @@ public abstract class BasicPage extends Page {
             }
         }
 
-        mPageView.post(new Runnable() {
+        mRootView.post(new Runnable() {
             @Override
             public void run() {
                 final int width = getFloatContainer().getWidth();
@@ -131,7 +132,7 @@ public abstract class BasicPage extends Page {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
                         for (int i = 0; i < tempResumePageList.size(); i++) {
-                            tempResumePageList.get(i).mPageView.setTranslationX(-PAGE_MOVE_RATE * (width - animValue));
+                            tempResumePageList.get(i).mRootView.setTranslationX(-PAGE_MOVE_RATE * (width - animValue));
                         }
                         mLayoutContainer.setTranslationX(animValue);
                         mViewBackground.setAlpha((1.0f * (width - animValue)) / width);

@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class Page extends BasicPage {
 
-    protected Page mSelf;                           // 小丑竟然是我自己
+    protected Page mThis;                           // 小丑竟然是我自己
 
     private boolean mIsPageShowed;                  // 防止多次调用
     private boolean mIsPageCanceled;                // 防止多次调用
@@ -22,7 +22,7 @@ public abstract class Page extends BasicPage {
 
     public Page(PageActivity pageActivity) {
         super(pageActivity);
-        mSelf = this;
+        mThis = this;
     }
 
     /**

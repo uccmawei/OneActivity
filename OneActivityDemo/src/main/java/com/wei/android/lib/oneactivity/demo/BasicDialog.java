@@ -49,6 +49,7 @@ public abstract class BasicDialog extends Page {
             @Override
             public void onInflateFinished(View view) {
                 mPageView = view;
+                mRootView.addView(mPageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mViewBackground = view.findViewById(R.id.mViewBackground);
                 mLayoutContainer = view.findViewById(R.id.mLayoutContainer);
                 mSpace = view.findViewById(R.id.mSpace);
@@ -56,8 +57,7 @@ public abstract class BasicDialog extends Page {
                     @Override
                     public void onInflateFinished(View view) {
                         mLayoutContainer.addView(view);
-                        view.setClickable(true);
-                        view.setFocusable(true);
+                        Utils.blockAllEvents(view);
                         if (listener != null) {
                             listener.onFinished();
                         }
@@ -73,13 +73,13 @@ public abstract class BasicDialog extends Page {
             return;
         }
 
-        mPageView.setVisibility(View.GONE);
-        mPageView.post(new Runnable() {
+        mRootView.setVisibility(View.GONE);
+        mRootView.post(new Runnable() {
             @Override
             public void run() {
 
                 // 淡入缩放动画，底下渐变
-                mPageView.setVisibility(View.VISIBLE);
+                mRootView.setVisibility(View.VISIBLE);
                 Utils.makeAnimation(0, 100, PAGE_FADE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
@@ -122,7 +122,7 @@ public abstract class BasicDialog extends Page {
             return;
         }
 
-        mPageView.post(new Runnable() {
+        mRootView.post(new Runnable() {
             @Override
             public void run() {
 

@@ -165,8 +165,7 @@ class PageManager {
 
         // 默认效果
         mPageTouchInterceptor.setAlpha(0.0f);
-        mPageTouchInterceptor.setClickable(true);
-        mPageTouchInterceptor.setFocusable(true);
+        Utils.blockAllEvents(mPageTouchInterceptor);
         mPageTouchInterceptor.setVisibility(View.GONE);
         mGrayMaskView.setBackgroundColor(Color.parseColor("#33000000"));
         mGrayMaskView.setVisibility(View.GONE);
@@ -287,16 +286,12 @@ class PageManager {
             public void onFinished() {
 
                 // 绑定
-                Utils.bindView(pageToShow, pageToShow.mPageView);
+                Utils.bindView(pageToShow, pageToShow.mRootView);
                 pageToShow.callOnPageInit();
-
-                // 拦截点击穿透
-                pageToShow.mPageView.setClickable(true);
-                pageToShow.mPageView.setFocusable(true);
 
                 // 入队
                 mPageList.add(pageToShow);
-                mPageListContainer.addView(pageToShow.mPageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                mPageListContainer.addView(pageToShow.mRootView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
 
                 // 无动画模式
@@ -329,7 +324,7 @@ class PageManager {
         if (!pageToShow.isTranslucentMode()) {
             for (int i = mPageList.size() - 1; i >= 0; i--) {
                 if (mPageList.get(i) != pageToShow) {
-                    mPageList.get(i).mPageView.setVisibility(View.GONE);
+                    mPageList.get(i).mRootView.setVisibility(View.GONE);
                     mPageList.get(i).callOnPageStop();
                     if (!mPageList.get(i).isTranslucentMode()) {
                         break;
@@ -389,7 +384,7 @@ class PageManager {
 
         // 恢复可见视图
         for (int i = mPageList.size() - 2; i >= 0; i--) {
-            mPageList.get(i).mPageView.setVisibility(View.VISIBLE);
+            mPageList.get(i).mRootView.setVisibility(View.VISIBLE);
             if (!mPageList.get(i).isTranslucentMode()) {
                 break;
             }
@@ -420,7 +415,7 @@ class PageManager {
         pageToCancel.callOnPageStop();
 
         // 移除视图和列表
-        mPageListContainer.removeView(pageToCancel.mPageView);
+        mPageListContainer.removeView(pageToCancel.mRootView);
         mPageList.remove(pageToCancel);
 
         // 将要被恢复的 Page 恢复啦
@@ -558,7 +553,7 @@ class PageManager {
         // 滑动返回的话，底下的可见 Page 需要显示出来可见
         mTempSwipeBackToResumePageList = new ArrayList<>();
         for (int i = mPageList.size() - 2; i >= 0; i--) {
-            mPageList.get(i).mPageView.setVisibility(View.VISIBLE);
+            mPageList.get(i).mRootView.setVisibility(View.VISIBLE);
             mTempSwipeBackToResumePageList.add(mPageList.get(i));
             if (!mPageList.get(i).isTranslucentMode()) {
                 break;
@@ -615,7 +610,7 @@ class PageManager {
                 @Override
                 public void onAnimationEnd() {
                     for (int i = 0; i < mTempSwipeBackToResumePageList.size(); i++) {
-                        mTempSwipeBackToResumePageList.get(i).mPageView.setVisibility(View.GONE);
+                        mTempSwipeBackToResumePageList.get(i).mRootView.setVisibility(View.GONE);
                     }
 
                     mIsSwiping = false;
@@ -652,11 +647,11 @@ class PageManager {
 
         mGrayMaskView.setVisibility(View.VISIBLE);
         int width = mTempSwipingPage.getFloatContainer().getWidth();
-        mTempSwipingPage.mPageView.setTranslationX(moveDistance);
+        mTempSwipingPage.mRootView.setTranslationX(moveDistance);
         mGrayMaskView.setTranslationX(moveDistance - width);
         mGrayMaskView.setAlpha((1.0f * (width - moveDistance)) / width);
         for (int i = 0; i < mTempSwipeBackToResumePageList.size(); i++) {
-            mTempSwipeBackToResumePageList.get(i).mPageView.setTranslationX(SWIPE_MOVE_RATE * (moveDistance - width));
+            mTempSwipeBackToResumePageList.get(i).mRootView.setTranslationX(SWIPE_MOVE_RATE * (moveDistance - width));
         }
     }
 
@@ -673,7 +668,7 @@ class PageManager {
 
         if (mTempSwipeBackToResumePageList != null) {
             for (int i = 0; i < mTempSwipeBackToResumePageList.size(); i++) {
-                mTempSwipeBackToResumePageList.get(i).mPageView.setVisibility(View.GONE);
+                mTempSwipeBackToResumePageList.get(i).mRootView.setVisibility(View.GONE);
             }
         }
 

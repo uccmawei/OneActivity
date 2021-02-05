@@ -57,7 +57,7 @@ public class TabHelper {
         NestedScrollableHost nestedScrollableHost = new NestedScrollableHost(mPage.mPageActivity);
         nestedScrollableHost.addView(mViewPager2);
 
-        ((ViewGroup) mPage.mPageView.findViewById(innerPageContainerId)).addView(nestedScrollableHost,
+        ((ViewGroup) mPage.mRootView.findViewById(innerPageContainerId)).addView(nestedScrollableHost,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
@@ -252,7 +252,7 @@ public class TabHelper {
             // 已经实例化的直接加进去
             if (mInnerPageList.get(position).isPageInit()) {
                 if ((int) viewGroup.getTag() == position) {
-                    viewGroup.addView(mInnerPageList.get(position).mPageView);
+                    viewGroup.addView(mInnerPageList.get(position).mRootView);
                     callInnerPageOnPageStartOrResume(position);
                 }
                 return;
@@ -263,15 +263,11 @@ public class TabHelper {
                 @Override
                 public void onFinished() {
 
-                    // 拦截点击穿透
-                    mInnerPageList.get(position).mPageView.setClickable(true);
-                    mInnerPageList.get(position).mPageView.setFocusable(true);
-
                     // 绑定
-                    Utils.bindView(mInnerPageList.get(position), mInnerPageList.get(position).mPageView);
+                    Utils.bindView(mInnerPageList.get(position), mInnerPageList.get(position).mRootView);
                     mInnerPageList.get(position).callOnPageInit();
                     if ((int) viewGroup.getTag() == position) {
-                        viewGroup.addView(mInnerPageList.get(position).mPageView);
+                        viewGroup.addView(mInnerPageList.get(position).mRootView);
                     }
 
                     callInnerPageOnPageStartOrResume((int) viewGroup.getTag());

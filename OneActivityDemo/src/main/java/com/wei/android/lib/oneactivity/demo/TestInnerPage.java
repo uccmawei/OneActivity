@@ -33,8 +33,8 @@ public class TestInnerPage extends BasicInnerPage {
 
         createTabHelper(R.id.mLayoutInnerPageContainer);
         List<InnerPage> innerPageList = new ArrayList<>();
-        innerPageList.add(new TestInnerPageSecond(mPage, "World_001"));
-        innerPageList.add(new TestInnerPageSecond(mPage, "World_002"));
+        innerPageList.add(new TestInnerPageSecond(mRootPage, "World_001"));
+        innerPageList.add(new TestInnerPageSecond(mRootPage, "World_002"));
         mTabHelper.setInnerPageList(innerPageList);
     }
 

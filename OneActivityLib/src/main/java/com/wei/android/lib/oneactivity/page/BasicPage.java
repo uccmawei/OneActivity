@@ -1,6 +1,7 @@
 package com.wei.android.lib.oneactivity.page;
 
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.wei.android.lib.oneactivity.listener.OnFinishListener;
 
@@ -10,22 +11,26 @@ import com.wei.android.lib.oneactivity.listener.OnFinishListener;
 
 abstract class BasicPage {
 
-    public View mPageView;                      // View 容器
-    protected PageActivity mPageActivity;       // 底层 Activity
-    protected TabHelper mTabHelper;             // 适配 Tab 模式
+    protected final PageActivity mPageActivity;     // 底层 Activity
+    public final FrameLayout mRootView;             // 页面的底层容器
 
-    private boolean mIsPageInit;                // 防止多次调用
-    private boolean mIsPageStart;               // 防止多次调用
-    private boolean mIsPageOnActive;            // 当前是活跃状态
-    private boolean mIsPagePause;               // 防止多次调用
-    private boolean mIsPageStop;                // 防止多次调用
-    private boolean mIsPageDestroy;             // 防止多次调用
+    public View mPageView;                          // 业务 View
+    protected TabHelper mTabHelper;                 // 适配 Tab 模式
+
+    private boolean mIsPageInit;                    // 防止多次调用
+    private boolean mIsPageStart;                   // 防止多次调用
+    private boolean mIsPageOnActive;                // 当前是活跃状态
+    private boolean mIsPagePause;                   // 防止多次调用
+    private boolean mIsPageStop;                    // 防止多次调用
+    private boolean mIsPageDestroy;                 // 防止多次调用
 
     /**
      * 默认构造方法
      */
     protected BasicPage(PageActivity pageActivity) {
         mPageActivity = pageActivity;
+        mRootView = new FrameLayout(mPageActivity);
+        Utils.blockAllEvents(mRootView);
     }
 
     /**

@@ -6,13 +6,12 @@ package com.wei.android.lib.oneactivity.page;
 
 public abstract class InnerPage extends BasicPage {
 
-    protected Page mPage;
-    protected InnerPage mSelf;
+    protected Page mRootPage;
+    protected InnerPage mThis;
 
     public InnerPage(Page page) {
         super(page.mPageActivity);
-        mPage = page;
-        mSelf = this;
+        mRootPage = page;
+        mThis = this;
     }
 }
-
