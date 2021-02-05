@@ -1,5 +1,7 @@
-package com.wei.android.lib.oneactivity.demo;
+package com.wei.android.lib.oneactivity.demo.page;
 
+import com.wei.android.lib.oneactivity.demo.R;
+import com.wei.android.lib.oneactivity.demo.basic.BasicPage;
 import com.wei.android.lib.oneactivity.page.InnerPage;
 import com.wei.android.lib.oneactivity.page.PageActivity;
 

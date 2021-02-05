@@ -1,6 +1,7 @@
 package com.wei.android.lib.oneactivity.page;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.wei.android.lib.oneactivity.listener.OnFinishListener;
@@ -186,6 +187,11 @@ abstract class BasicPage {
         }
 
         return false;
+    }
+
+    protected void setPageView(View pageView) {
+        mPageView = pageView;
+        mRootView.addView(pageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     /**

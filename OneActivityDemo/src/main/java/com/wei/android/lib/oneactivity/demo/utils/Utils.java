@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.demo;
+package com.wei.android.lib.oneactivity.demo.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

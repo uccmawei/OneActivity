@@ -1,8 +1,10 @@
-package com.wei.android.lib.oneactivity.demo;
+package com.wei.android.lib.oneactivity.demo.basic;
 
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wei.android.lib.oneactivity.demo.R;
+import com.wei.android.lib.oneactivity.demo.utils.Utils;
 import com.wei.android.lib.oneactivity.listener.OnFinishListener;
 import com.wei.android.lib.oneactivity.page.Page;
 import com.wei.android.lib.oneactivity.page.PageActivity;
@@ -29,8 +31,7 @@ public abstract class BasicPage extends Page {
         Utils.inflate(mPageActivity, R.layout.basic_page, new Utils.OnInflateListener() {
             @Override
             public void onInflateFinished(View view) {
-                mPageView = view;
-                mRootView.addView(mPageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                setPageView(view);
                 mViewBackground = view.findViewById(R.id.mViewBackground);
                 mLayoutContainer = view.findViewById(R.id.mLayoutContainer);
                 Utils.inflate(mPageActivity, getLayoutRes(), new Utils.OnInflateListener() {

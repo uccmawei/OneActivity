@@ -1,8 +1,10 @@
-package com.wei.android.lib.oneactivity.demo;
+package com.wei.android.lib.oneactivity.demo.page;
 
 import android.widget.TextView;
 
 import com.wei.android.lib.oneactivity.annotation.BindView;
+import com.wei.android.lib.oneactivity.demo.R;
+import com.wei.android.lib.oneactivity.demo.basic.BasicInnerPage;
 import com.wei.android.lib.oneactivity.page.InnerPage;
 import com.wei.android.lib.oneactivity.page.Page;
 

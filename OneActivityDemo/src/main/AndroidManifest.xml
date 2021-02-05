@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OneActivity">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

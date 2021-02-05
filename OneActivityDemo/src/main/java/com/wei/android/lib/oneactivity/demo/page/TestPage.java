@@ -1,8 +1,10 @@
-package com.wei.android.lib.oneactivity.demo;
+package com.wei.android.lib.oneactivity.demo.page;
 
 import android.view.View;
 
 import com.wei.android.lib.oneactivity.annotation.BindView;
+import com.wei.android.lib.oneactivity.demo.R;
+import com.wei.android.lib.oneactivity.demo.basic.BasicPage;
 import com.wei.android.lib.oneactivity.page.PageActivity;
 
 public class TestPage extends BasicPage implements View.OnClickListener {
