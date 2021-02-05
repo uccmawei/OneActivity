@@ -15,7 +15,7 @@ abstract class BasicPage {
     protected final PageActivity mPageActivity;     // 底层 Activity
     public final FrameLayout mRootView;             // 页面的底层容器
 
-    public View mPageView;                          // 业务 View
+    protected View mPageView;                       // 业务 View
     protected TabHelper mTabHelper;                 // 适配 Tab 模式
 
     private boolean mIsPageInit;                    // 防止多次调用
