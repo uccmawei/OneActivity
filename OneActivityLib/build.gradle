@@ -34,7 +34,7 @@ publish {
     userOrg = 'uccmawei'
     groupId = 'com.wei.android.lib'
     artifactId = 'oneactivity'
-    publishVersion = '0.0.5'
+    publishVersion = '0.0.7'
     desc = 'Only one activity.'
     website = 'https://github.com/uccmawei/OneActivity'
 }

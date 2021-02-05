@@ -52,11 +52,13 @@ public class TabHelper {
                 super.onPageScrollStateChanged(state);
             }
         });
+        fixOverScrollMode();
 
         NestedScrollableHost nestedScrollableHost = new NestedScrollableHost(mPage.mPageActivity);
         nestedScrollableHost.addView(mViewPager2);
 
-        ((ViewGroup) mPage.mPageView.findViewById(innerPageContainerId)).addView(nestedScrollableHost);
+        ((ViewGroup) mPage.mPageView.findViewById(innerPageContainerId)).addView(nestedScrollableHost,
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     /**
@@ -157,6 +159,18 @@ public class TabHelper {
      */
     public void setScrollable(boolean scrollable) {
         mViewPager2.setUserInputEnabled(scrollable);
+    }
+
+    /**
+     * 修复 OverScrollMode
+     */
+    private void fixOverScrollMode() {
+        if (mViewPager2.getChildCount() > 0) {
+            View child = mViewPager2.getChildAt(0);
+            if (child instanceof RecyclerView) {
+                child.setOverScrollMode(View.OVER_SCROLL_NEVER);
+            }
+        }
     }
 
     /**
