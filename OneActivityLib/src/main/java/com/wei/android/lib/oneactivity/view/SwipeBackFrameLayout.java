@@ -188,17 +188,19 @@ public class SwipeBackFrameLayout extends FrameLayout {
      * 根据触摸位置，按层级查找接触到的，可以向右滚动的视图列表，递归查找
      */
     private void findHorizonScrollViewList(View view, List<View> viewList, Rect rect, int x, int y) {
-        if (view.getVisibility() == VISIBLE) {
-            view.getGlobalVisibleRect(rect);
-            if (rect.contains(x, y)) {
-                if (view.canScrollHorizontally(-1)) {
-                    viewList.add(view);
-                }
-                if (view instanceof ViewGroup) {
-                    ViewGroup viewGroup = ((ViewGroup) view);
-                    int childCount = viewGroup.getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        findHorizonScrollViewList(viewGroup.getChildAt(i), viewList, rect, x, y);
+        if (view != null) {
+            if (view.getVisibility() == VISIBLE) {
+                view.getGlobalVisibleRect(rect);
+                if (rect.contains(x, y)) {
+                    if (view.canScrollHorizontally(-1)) {
+                        viewList.add(view);
+                    }
+                    if (view instanceof ViewGroup) {
+                        ViewGroup viewGroup = ((ViewGroup) view);
+                        int childCount = viewGroup.getChildCount();
+                        for (int i = 0; i < childCount; i++) {
+                            findHorizonScrollViewList(viewGroup.getChildAt(i), viewList, rect, x, y);
+                        }
                     }
                 }
             }

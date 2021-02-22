@@ -1,6 +1,7 @@
 package com.wei.android.lib.oneactivity.page;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,5 +31,12 @@ public abstract class PageActivity extends AppCompatActivity {
      */
     protected PageManager getPageManager() {
         return mPageManager;
+    }
+
+    /**
+     * 获取存放悬浮窗页面的空间
+     */
+    protected FrameLayout getFloatContainer() {
+        return getPageManager().getFloatContainer();
     }
 }
