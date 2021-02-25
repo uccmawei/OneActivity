@@ -31,6 +31,7 @@ abstract class BasicPage {
     protected BasicPage(PageActivity pageActivity) {
         mPageActivity = pageActivity;
         mRootView = new FrameLayout(mPageActivity);
+        mRootView.setVisibility(View.INVISIBLE);
         Utils.blockAllEvents(mRootView);
     }
 

@@ -71,10 +71,10 @@ public abstract class BasicDialog extends Page {
     @Override
     protected final void onDoShowAnimation(List<Page> pageList, OnFinishListener listener, boolean isNoAnimationMode) {
         if (isNoAnimationMode) {
+            mRootView.setVisibility(View.VISIBLE);
             return;
         }
 
-        mRootView.setVisibility(View.GONE);
         mRootView.post(new Runnable() {
             @Override
             public void run() {

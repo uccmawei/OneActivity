@@ -51,19 +51,18 @@ public abstract class BasicPage extends Page {
     @Override
     protected final void onDoShowAnimation(List<Page> pageList, OnFinishListener listener, boolean isNoAnimationMode) {
         if (isNoAnimationMode) {
+            mRootView.setVisibility(View.VISIBLE);
             return;
         }
 
         // 单个页面不走动画
         if (pageList.size() <= 1) {
+            mRootView.setVisibility(View.VISIBLE);
             if (listener != null) {
                 listener.onFinished();
             }
             return;
         }
-
-        // 先不显示，等会儿走动画
-        mRootView.setVisibility(View.GONE);
 
         // 正常左右切换动画
         final List<Page> tempPausePageList = new ArrayList<>();
