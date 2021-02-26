@@ -17,6 +17,7 @@ abstract class BasicPage {
 
     protected View mPageView;                       // 业务 View
     protected TabHelper mTabHelper;                 // 适配 Tab 模式
+    protected View mTouchInterceptor;               // 触摸拦截
 
     private boolean mIsPageInit;                    // 防止多次调用
     private boolean mIsPageStart;                   // 防止多次调用
@@ -106,6 +107,25 @@ abstract class BasicPage {
      */
     protected boolean onBackPressed() {
         return mTabHelper != null && mTabHelper.onBackPressed();
+    }
+
+    /**
+     * 触摸拦截
+     */
+    protected void blockTouch(boolean visible) {
+        if (visible) {
+            if (mTouchInterceptor == null) {
+                mTouchInterceptor = new View(mPageActivity);
+                Utils.blockAllEvents(mTouchInterceptor);
+                mRootView.addView(mTouchInterceptor, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
+            mTouchInterceptor.setVisibility(View.VISIBLE);
+            mRootView.bringToFront();
+        } else {
+            if (mTouchInterceptor != null) {
+                mTouchInterceptor.setVisibility(View.GONE);
+            }
+        }
     }
 
     /**
