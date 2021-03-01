@@ -81,7 +81,7 @@ class Utils {
     public static void makeAnimation(final int from, final int to, long duration, final Utils.PageAnimationListener pageAnimationListener) {
         ValueAnimator animator = ValueAnimator.ofInt(from, to);
         animator.setDuration(duration);
-        animator.setInterpolator(new DecelerateInterpolator(2.0f));
+        animator.setInterpolator(new DecelerateInterpolator(1.6f));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
