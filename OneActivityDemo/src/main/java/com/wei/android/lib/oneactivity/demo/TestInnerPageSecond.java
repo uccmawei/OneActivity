@@ -1,21 +1,20 @@
-package com.wei.android.lib.oneactivity.demo.page;
+package com.wei.android.lib.oneactivity.demo;
 
 import android.widget.TextView;
 
-import com.wei.android.lib.oneactivity.annotation.BindView;
-import com.wei.android.lib.oneactivity.demo.R;
-import com.wei.android.lib.oneactivity.demo.basic.BasicInnerPage;
-import com.wei.android.lib.oneactivity.page.Page;
+import com.wei.android.lib.oneactivity.BindView;
 
 public class TestInnerPageSecond extends BasicInnerPage {
 
     @BindView(R.id.mTvText)
     private TextView mTvText;
 
+    private BasicPage mBasicPage;
     private final String mText;
 
-    public TestInnerPageSecond(Page page, String text) {
-        super(page);
+    public TestInnerPageSecond(BasicPage basicPage, String text) {
+        super(basicPage.mPageActivity);
+        mBasicPage = basicPage;
         mText = text;
     }
 

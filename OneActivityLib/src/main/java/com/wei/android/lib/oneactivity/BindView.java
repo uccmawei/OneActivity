@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.annotation;
+package com.wei.android.lib.oneactivity;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

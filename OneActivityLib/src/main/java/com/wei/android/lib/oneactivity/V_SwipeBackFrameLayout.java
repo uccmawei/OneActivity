@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.view;
+package com.wei.android.lib.oneactivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +20,7 @@ import java.util.List;
  * 处理滑动返回手势
  */
 
-public class SwipeBackFrameLayout extends FrameLayout {
+class V_SwipeBackFrameLayout extends FrameLayout {
 
     private static final int FAST_SWIPE_TIME = 150;         // 认为是快速滑动的时间判断
     private static final int FAST_SWIPE_DISTANCE = 10;      // 认为是快速滑动的距离判断
@@ -38,19 +38,19 @@ public class SwipeBackFrameLayout extends FrameLayout {
     private int mFastSwipeDistanceInDp;                     // 认为是快速滑动的距离判断运算值
     private List<View> mHorizonScrollViewList;              // 触摸位置下可以向右滑动的 View 的列表
 
-    public SwipeBackFrameLayout(@NonNull Context context) {
+    public V_SwipeBackFrameLayout(@NonNull Context context) {
         super(context);
     }
 
-    public SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public V_SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public V_SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public V_SwipeBackFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

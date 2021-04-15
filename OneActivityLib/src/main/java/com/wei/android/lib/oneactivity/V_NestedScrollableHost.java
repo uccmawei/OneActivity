@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.view;
+package com.wei.android.lib.oneactivity;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,26 +13,26 @@ import androidx.annotation.Nullable;
  * 解决内嵌滚动事件的冲突，以内层进行最优先的抢占，不需要的话再逐层分发继续抢占，层次越深，优先级越高，越容易抢到
  */
 
-public class NestedScrollableHost extends FrameLayout {
+class V_NestedScrollableHost extends FrameLayout {
 
     private float mRawXOnActionDown;                    // 手指触摸时的落地点位置
     private boolean mIgnoreThisMove = false;            // 当前事件不符合要求
     private boolean mHadCatchTouchEvent = false;        // 触摸事件被我拦截下来啦
     private boolean mCanHandleTouchEvent = true;        // 没被请求拦截的话我可以拦截事件
 
-    public NestedScrollableHost(@NonNull Context context) {
+    public V_NestedScrollableHost(@NonNull Context context) {
         super(context);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public V_NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public V_NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public V_NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

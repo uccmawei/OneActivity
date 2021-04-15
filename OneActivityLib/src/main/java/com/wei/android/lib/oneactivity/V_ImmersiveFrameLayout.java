@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.view;
+package com.wei.android.lib.oneactivity;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,24 +11,24 @@ import androidx.annotation.Nullable;
  * 默认开启 setFitsSystemWindows 会导致有额外的 padding，所以这里需要强制都改成 0 即可实现整个屏幕都是 APP 内容
  */
 
-public class ImmersiveFrameLayout extends FrameLayout {
+class V_ImmersiveFrameLayout extends FrameLayout {
 
-    public ImmersiveFrameLayout(@NonNull Context context) {
+    public V_ImmersiveFrameLayout(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public V_ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public V_ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public V_ImmersiveFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

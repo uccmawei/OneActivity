@@ -34,7 +34,7 @@ publish {
     userOrg = 'uccmawei'
     groupId = 'com.wei.android.lib'
     artifactId = 'oneactivity'
-    publishVersion = '0.0.7'
+    publishVersion = '0.0.8'
     desc = 'Only one activity.'
     website = 'https://github.com/uccmawei/OneActivity'
 }
@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation "androidx.asynclayoutinflater:asynclayoutinflater:1.0.0"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

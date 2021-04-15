@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.page;
+package com.wei.android.lib.oneactivity;
 
 import android.graphics.Color;
 import android.view.View;
@@ -10,11 +10,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.wei.android.lib.oneactivity.listener.OnFinishListener;
-import com.wei.android.lib.oneactivity.view.FixedHeightFrameLayout;
-import com.wei.android.lib.oneactivity.view.ImmersiveFrameLayout;
-import com.wei.android.lib.oneactivity.view.SwipeBackFrameLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,27 +19,30 @@ import java.util.List;
 
 class PageManager {
 
-    private static final int SWIPE_ANIMATION_DURATION = 300;    // Page 页面切换动画时长
-    private static final float SWIPE_MOVE_RATE = 0.25f;         // 上层 Page 页面切换时底下 Page 的移动偏移率
+    public static final String GRAY_MASK_COLOR_20 = "#4C000000";    // 滑动返回页面遮罩层 20% 透明度黑色
+    public static final String GRAY_MASK_COLOR_30 = "#66000000";    // 对话框背景
 
-    private final PageActivity mPageActivity;                   // 根 Activity
-    private final List<Page> mPageList;                         // Page 栈
+    private static final int SWIPE_ANIMATION_DURATION = 300;        // Page 页面切换动画时长
+    private static final float SWIPE_MOVE_RATE = 0.25f;             // 上层 Page 页面切换时底下 Page 的移动偏移率
 
-    private SwipeBackFrameLayout mPageListContainer;            // 堆放 Page 页面的容器，并实现了滑动返回反馈机制
-    private FrameLayout mFloatContainer;                        // 悬浮窗容器空间
-    private View mPageTouchInterceptor;                         // 拦截 Page 切换中的时候的触摸事件
-    private View mGrayMaskView;                                 // 灰色遮罩，滑动返回用
+    private final PageActivity mPageActivity;                       // 根 Activity
+    private final List<Page> mPageList;                             // Page 栈
 
-    private boolean mIsFirstTimeOnResume = true;                // 我们忽略 Activity 的第一次启动的 onResume 回调
+    private V_SwipeBackFrameLayout mPageListContainer;              // 堆放 Page 页面的容器，并实现了滑动返回反馈机制
+    private FrameLayout mFloatContainer;                            // 悬浮窗容器空间
+    private View mPageTouchInterceptor;                             // 拦截 Page 切换中的时候的触摸事件
+    private View mGrayMaskView;                                     // 灰色遮罩，滑动返回用
 
-    private boolean mIsSwiping;                                 // 正在滑
-    private Page mTempSwipingPage;                              // 正在滑动返回的 Page
-    private List<Page> mTempSwipeBackToResumePageList;          // 滑动返回时，可以看得到的后面的 Page 列表
-    private int mTempMoveDistance;                              // 最后一次滑动的移动距离
+    private boolean mIsFirstTimeOnResume = true;                    // 我们忽略 Activity 的第一次启动的 onResume 回调
 
-    private boolean mIsInBusy;                                  // 页面栈正忙
-    private List<PageTask> mPageTaskList;                       // 暂存的 Page 对象列表
-    private List<PageTask> mPageTaskListDoing;                  // 暂存的 Page 对象列表，正在处理中的
+    private boolean mIsSwiping;                                     // 正在滑
+    private Page mTempSwipingPage;                                  // 正在滑动返回的 Page
+    private List<Page> mTempSwipeBackToResumePageList;              // 滑动返回时，可以看得到的后面的 Page 列表
+    private int mTempMoveDistance;                                  // 最后一次滑动的移动距离
+
+    private boolean mIsInBusy;                                      // 页面栈正忙
+    private List<PageTask> mPageTaskList;                           // 暂存的 Page 对象列表
+    private List<PageTask> mPageTaskListDoing;                      // 暂存的 Page 对象列表，正在处理中的
 
     protected PageManager(PageActivity pageActivity) {
         mPageActivity = pageActivity;
@@ -156,18 +154,18 @@ class PageManager {
      * 代码创建视图，确保代码流程是同步，并且代码比 XML 读取快得多，可维护性嘛，只能牺牲一些改动最小的部分了
      */
     private void initBasicViewLayoutSystem() {
-        ImmersiveFrameLayout immersiveFrameLayout = new ImmersiveFrameLayout(mPageActivity);        // 沉浸式
-        FixedHeightFrameLayout fixedHeightFrameLayout = new FixedHeightFrameLayout(mPageActivity);  // 高度锁定
+        V_ImmersiveFrameLayout immersiveFrameLayout = new V_ImmersiveFrameLayout(mPageActivity);        // 沉浸式
+        V_FixedHeightFrameLayout fixedHeightFrameLayout = new V_FixedHeightFrameLayout(mPageActivity);  // 高度锁定
         mPageTouchInterceptor = new View(mPageActivity);                                            // 触摸交互拦截层
         mFloatContainer = new FrameLayout(mPageActivity);                                           // 悬浮窗
         mGrayMaskView = new View(mPageActivity);                                                    // 灰色遮罩
-        mPageListContainer = new SwipeBackFrameLayout(mPageActivity);                               // 滑动返回
+        mPageListContainer = new V_SwipeBackFrameLayout(mPageActivity);                               // 滑动返回
 
         // 默认效果
         mPageTouchInterceptor.setAlpha(0.0f);
         Utils.blockAllEvents(mPageTouchInterceptor);
         mPageTouchInterceptor.setVisibility(View.GONE);
-        mGrayMaskView.setBackgroundColor(Color.parseColor("#33000000"));
+        mGrayMaskView.setBackgroundColor(Color.parseColor(GRAY_MASK_COLOR_20));
         mGrayMaskView.setVisibility(View.GONE);
 
         // 层次绑定
@@ -183,7 +181,7 @@ class PageManager {
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         // 绑定键盘弹起的处理逻辑
-        fixedHeightFrameLayout.setOnKeyboardChangeListener(new FixedHeightFrameLayout.OnKeyboardChangeListener() {
+        fixedHeightFrameLayout.setOnKeyboardChangeListener(new V_FixedHeightFrameLayout.OnKeyboardChangeListener() {
             @Override
             public void onKeyboardChange(int keyboardHeight) {
                 handleKeyboardChange(keyboardHeight);
@@ -191,7 +189,7 @@ class PageManager {
         });
 
         // 绑定滑动返回交互逻辑
-        mPageListContainer.setSwipeBackListener(new SwipeBackFrameLayout.SwipeBackListener() {
+        mPageListContainer.setSwipeBackListener(new V_SwipeBackFrameLayout.SwipeBackListener() {
             @Override
             public boolean canSwipeBack() {
                 return handleSwipeBackBegin();
@@ -207,6 +205,13 @@ class PageManager {
                 handleSwipeBackTouchUp(isFastSwipe);
             }
         });
+    }
+
+    /**
+     * 获取存放 Page 的容器，一般拿来获取尺寸
+     */
+    protected FrameLayout getRootPageContainer() {
+        return mPageListContainer;
     }
 
     /**
@@ -596,12 +601,12 @@ class PageManager {
         }
 
         // 判断是否需要滑动返回确认，获取页面宽度
-        int width = mTempSwipingPage.getFloatContainer().getWidth();
+        int width = mTempSwipingPage.getRootPageContainer().getWidth();
         boolean doSwipeToCancelPage = isFastSwipe || mTempMoveDistance > (width / 3.0f);
 
         // 恢复界面，看下是否需要触发确认回调
         if (!doSwipeToCancelPage) {
-            Utils.makeAnimation(mTempMoveDistance, 0, SWIPE_ANIMATION_DURATION, new Utils.PageAnimationListener() {
+            Utils.makeDecelerateAnimation(mTempMoveDistance, 0, SWIPE_ANIMATION_DURATION, new Utils.PageAnimationListener() {
                 @Override
                 public void onAnimationUpdate(int from, int to, int animValue) {
                     updatePageViewBySwipeMove(animValue);
@@ -622,7 +627,7 @@ class PageManager {
         }
 
         // 关闭当前页面，将被关闭的 Page 回调一下
-        Utils.makeAnimation(mTempMoveDistance, width, SWIPE_ANIMATION_DURATION, new Utils.PageAnimationListener() {
+        Utils.makeDecelerateAnimation(mTempMoveDistance, width, SWIPE_ANIMATION_DURATION, new Utils.PageAnimationListener() {
             @Override
             public void onAnimationUpdate(int from, int to, int animValue) {
                 updatePageViewBySwipeMove(animValue);
@@ -646,7 +651,7 @@ class PageManager {
         }
 
         mGrayMaskView.setVisibility(View.VISIBLE);
-        int width = mTempSwipingPage.getFloatContainer().getWidth();
+        int width = mTempSwipingPage.getRootPageContainer().getWidth();
         mTempSwipingPage.mRootView.setTranslationX(moveDistance);
         mGrayMaskView.setTranslationX(moveDistance - width);
         mGrayMaskView.setAlpha((1.0f * (width - moveDistance)) / width);

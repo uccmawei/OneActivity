@@ -1,55 +1,47 @@
-package com.wei.android.lib.oneactivity.demo.basic;
+package com.wei.android.lib.oneactivity;
 
+import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
-
-import com.wei.android.lib.oneactivity.demo.R;
-import com.wei.android.lib.oneactivity.demo.utils.Utils;
-import com.wei.android.lib.oneactivity.listener.OnFinishListener;
-import com.wei.android.lib.oneactivity.page.Page;
-import com.wei.android.lib.oneactivity.page.PageActivity;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BasicPage extends Page {
+public abstract class LibPage extends Page {
 
-    private static final int PAGE_SWIPE_TIME = 600;         // Page 页面切换动画时长
+    private static final int PAGE_SWIPE_TIME = 400;         // Page 页面切换动画时长
     private static final float PAGE_MOVE_RATE = 0.25f;      // 上层 Page 页面切换时底下 Page 的移动偏移率
 
-    private View mViewBackground;                           // 切换时灰色背景
-    private ViewGroup mLayoutContainer;                     // 再次封装的业务容器
+    protected View mViewBackground;                         // 切换时灰色背景
+    protected FrameLayout mLayoutContainer;                 // 再次封装的业务容器
 
-    public BasicPage(PageActivity pageActivity) {
+    public LibPage(PageActivity pageActivity) {
         super(pageActivity);
     }
 
-    protected abstract int getLayoutRes();
-
     @Override
-    protected final void onDoCreateView(OnFinishListener listener) {
-        Utils.inflate(mPageActivity, R.layout.basic_page, new Utils.OnInflateListener() {
+    protected void onDoCreateView(OnFinishListener listener) {
+        FrameLayout frameLayout = new FrameLayout(mPageActivity);
+        mViewBackground = new View(mPageActivity);
+        mViewBackground.setBackgroundColor(Color.parseColor(PageManager.GRAY_MASK_COLOR_20));
+        mLayoutContainer = new FrameLayout(mPageActivity);
+        frameLayout.addView(mViewBackground);
+        frameLayout.addView(mLayoutContainer);
+        setPageView(frameLayout);
+        super.onDoCreateView(new OnFinishListener() {
             @Override
-            public void onInflateFinished(View view) {
-                setPageView(view);
-                mViewBackground = view.findViewById(R.id.mViewBackground);
-                mLayoutContainer = view.findViewById(R.id.mLayoutContainer);
-                Utils.inflate(mPageActivity, getLayoutRes(), new Utils.OnInflateListener() {
-                    @Override
-                    public void onInflateFinished(View view) {
-                        mLayoutContainer.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT));
-                        if (listener != null) {
-                            listener.onFinished();
-                        }
-                    }
-                });
+            public void onFinished() {
+                if (listener != null) {
+                    listener.onFinished();
+                }
             }
         });
     }
 
     @Override
     protected final void onDoShowAnimation(List<Page> pageList, OnFinishListener listener, boolean isNoAnimationMode) {
+
+        // 无动画模式
         if (isNoAnimationMode) {
             mRootView.setVisibility(View.VISIBLE);
             return;
@@ -73,14 +65,17 @@ public abstract class BasicPage extends Page {
             }
         }
 
-        // 开始左右切换的动画
+        // 开始动画
         mRootView.post(new Runnable() {
             @Override
             public void run() {
+
+                // 恢复可见
                 mRootView.setVisibility(View.VISIBLE);
 
-                final int width = getFloatContainer().getWidth();
-                Utils.makeAnimation(width, 0, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
+                // 开始动画
+                final int width = getRootPageContainer().getWidth();
+                Utils.makeDecelerateAnimation(width, 0, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
                         for (int i = 0; i < tempPausePageList.size(); i++) {
@@ -103,6 +98,8 @@ public abstract class BasicPage extends Page {
 
     @Override
     protected final void onDoCancelAnimation(List<Page> pageList, OnFinishListener listener, boolean isNoAnimationMode) {
+
+        // 无动画模式
         if (isNoAnimationMode) {
             return;
         }
@@ -124,11 +121,14 @@ public abstract class BasicPage extends Page {
             }
         }
 
+        // 开始动画
         mRootView.post(new Runnable() {
             @Override
             public void run() {
-                final int width = getFloatContainer().getWidth();
-                Utils.makeAnimation(0, width, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
+
+                // 开始动画
+                final int width = getRootPageContainer().getWidth();
+                Utils.makeDecelerateAnimation(0, width, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
                         for (int i = 0; i < tempResumePageList.size(); i++) {

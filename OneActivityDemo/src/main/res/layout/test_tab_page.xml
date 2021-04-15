@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center"
-            android:text="One Activity · Hello World"
+            android:text="One Activity"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />

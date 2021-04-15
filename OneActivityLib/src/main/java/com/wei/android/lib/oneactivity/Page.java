@@ -1,8 +1,6 @@
-package com.wei.android.lib.oneactivity.page;
+package com.wei.android.lib.oneactivity;
 
 import android.widget.FrameLayout;
-
-import com.wei.android.lib.oneactivity.listener.OnFinishListener;
 
 import java.util.List;
 
@@ -10,7 +8,7 @@ import java.util.List;
  * 单页面型
  */
 
-public abstract class Page extends BasicPage {
+abstract class Page extends PageWrapper {
 
     private boolean mIsPageShowed;                  // 防止多次调用
     private boolean mIsPageCanceled;                // 防止多次调用
@@ -41,6 +39,13 @@ public abstract class Page extends BasicPage {
      */
     public void cancel() {
         mPageActivity.getPageManager().cancel(this);
+    }
+
+    /**
+     * 获取存放 Page 的容器，一般拿来获取尺寸
+     */
+    protected FrameLayout getRootPageContainer() {
+        return mPageActivity.getPageManager().getRootPageContainer();
     }
 
     /**

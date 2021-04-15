@@ -1,11 +1,10 @@
-package com.wei.android.lib.oneactivity.demo.activity;
+package com.wei.android.lib.oneactivity.demo;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.wei.android.lib.oneactivity.demo.page.TestPage;
-import com.wei.android.lib.oneactivity.page.PageActivity;
+import com.wei.android.lib.oneactivity.PageActivity;
 
 public class MainActivity extends PageActivity {
 

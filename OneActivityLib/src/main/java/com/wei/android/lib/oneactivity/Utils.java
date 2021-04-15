@@ -1,18 +1,18 @@
-package com.wei.android.lib.oneactivity.page;
+package com.wei.android.lib.oneactivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-
-import com.wei.android.lib.oneactivity.annotation.BindView;
 
 import java.lang.reflect.Field;
 
@@ -76,17 +76,50 @@ class Utils {
     }
 
     /**
+     * 处理键盘弹起
+     */
+    public static void handleKeyboardChange(View mSpace, int keyboardHeight) {
+        makeDecelerateAnimation(mSpace.getHeight(), keyboardHeight, 300, new PageAnimationListener() {
+            @Override
+            public void onAnimationUpdate(int from, int to, int animValue) {
+                setViewHeight(mSpace, animValue);
+            }
+
+            @Override
+            public void onAnimationEnd() {
+
+            }
+        });
+    }
+
+    /**
+     * 设置高度
+     */
+    public static void setViewHeight(View view, int height) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = height;
+        view.setLayoutParams(layoutParams);
+    }
+
+    /**
      * 简化动画
      */
-    public static void makeAnimation(final int from, final int to, long duration, final Utils.PageAnimationListener pageAnimationListener) {
+    public static void makeDecelerateAnimation(final int from, final int to, long duration, final PageAnimationListener pageAnimationListener) {
+        doAnimation(from, to, duration, new DecelerateInterpolator(2.0f), pageAnimationListener);
+    }
+
+    /**
+     * 简化动画
+     */
+    private static void doAnimation(final int from, final int to, long duration, TimeInterpolator interpolator, final PageAnimationListener listener) {
         ValueAnimator animator = ValueAnimator.ofInt(from, to);
         animator.setDuration(duration);
-        animator.setInterpolator(new DecelerateInterpolator(1.6f));
+        animator.setInterpolator(interpolator);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if (pageAnimationListener != null) {
-                    pageAnimationListener.onAnimationUpdate(from, to, (Integer) animation.getAnimatedValue());
+                if (listener != null) {
+                    listener.onAnimationUpdate(from, to, (Integer) animation.getAnimatedValue());
                 }
             }
         });
@@ -94,8 +127,8 @@ class Utils {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (pageAnimationListener != null) {
-                    pageAnimationListener.onAnimationEnd();
+                if (listener != null) {
+                    listener.onAnimationEnd();
                 }
             }
         });

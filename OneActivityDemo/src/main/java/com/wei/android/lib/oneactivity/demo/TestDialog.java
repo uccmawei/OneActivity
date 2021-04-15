@@ -1,11 +1,8 @@
-package com.wei.android.lib.oneactivity.demo.page;
+package com.wei.android.lib.oneactivity.demo;
 
-import com.wei.android.lib.oneactivity.demo.R;
-import com.wei.android.lib.oneactivity.demo.utils.Utils;
-import com.wei.android.lib.oneactivity.demo.basic.BasicDialog;
-import com.wei.android.lib.oneactivity.page.PageActivity;
+import com.wei.android.lib.oneactivity.PageActivity;
 
-public class TestDialog extends BasicDialog {
+public class TestDialog extends BasicCenterDialog {
 
     public TestDialog(PageActivity pageActivity) {
         super(pageActivity);
@@ -19,6 +16,7 @@ public class TestDialog extends BasicDialog {
     @Override
     protected void onPageStart() {
         super.onPageStart();
+        doShowAnimation();
 
         Utils.showKeyboard(findViewById(R.id.mEditText));
     }

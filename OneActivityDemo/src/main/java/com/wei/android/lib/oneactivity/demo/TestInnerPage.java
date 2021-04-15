@@ -1,12 +1,8 @@
-package com.wei.android.lib.oneactivity.demo.page;
+package com.wei.android.lib.oneactivity.demo;
 
 import android.widget.TextView;
 
-import com.wei.android.lib.oneactivity.annotation.BindView;
-import com.wei.android.lib.oneactivity.demo.R;
-import com.wei.android.lib.oneactivity.demo.basic.BasicInnerPage;
-import com.wei.android.lib.oneactivity.page.InnerPage;
-import com.wei.android.lib.oneactivity.page.Page;
+import com.wei.android.lib.oneactivity.BindView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +12,12 @@ public class TestInnerPage extends BasicInnerPage {
     @BindView(R.id.mTvText)
     private TextView mTvText;
 
+    private BasicPage mBasicPage;
     private final String mText;
 
-    public TestInnerPage(Page page, String text) {
-        super(page);
+    protected TestInnerPage(BasicPage basicPage, String text) {
+        super(basicPage.mPageActivity);
+        mBasicPage = basicPage;
         mText = text;
     }
 
@@ -34,9 +32,9 @@ public class TestInnerPage extends BasicInnerPage {
         mTvText.setText(mText);
 
         createTabHelper(R.id.mLayoutInnerPageContainer);
-        List<InnerPage> innerPageList = new ArrayList<>();
-        innerPageList.add(new TestInnerPageSecond(mRootPage, "World_001"));
-        innerPageList.add(new TestInnerPageSecond(mRootPage, "World_002"));
+        List<BasicInnerPage> innerPageList = new ArrayList<>();
+        innerPageList.add(new TestInnerPageSecond(mBasicPage, "World_001"));
+        innerPageList.add(new TestInnerPageSecond(mBasicPage, "World_002"));
         mTabHelper.setInnerPageList(innerPageList);
     }
 

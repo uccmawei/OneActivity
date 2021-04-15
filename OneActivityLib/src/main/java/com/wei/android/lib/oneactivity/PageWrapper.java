@@ -1,23 +1,25 @@
-package com.wei.android.lib.oneactivity.page;
+package com.wei.android.lib.oneactivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.wei.android.lib.oneactivity.listener.OnFinishListener;
+import androidx.core.content.ContextCompat;
 
 /**
  * 底层
  */
 
-abstract class BasicPage {
+abstract class PageWrapper implements View.OnClickListener {
 
-    protected final PageActivity mPageActivity;     // 底层 Activity
+    public final PageActivity mPageActivity;        // 底层 Activity
     public final FrameLayout mRootView;             // 页面的底层容器
 
     protected View mPageView;                       // 业务 View
     protected TabHelper mTabHelper;                 // 适配 Tab 模式
-    protected View mTouchInterceptor;               // 触摸拦截
+    private View mTouchInterceptor;                 // 触摸拦截
 
     private boolean mIsPageInit;                    // 防止多次调用
     private boolean mIsPageStart;                   // 防止多次调用
@@ -29,9 +31,10 @@ abstract class BasicPage {
     /**
      * 默认构造方法
      */
-    protected BasicPage(PageActivity pageActivity) {
+    protected PageWrapper(PageActivity pageActivity) {
         mPageActivity = pageActivity;
         mRootView = new FrameLayout(mPageActivity);
+        mRootView.setBackgroundColor(Color.TRANSPARENT);
         mRootView.setVisibility(View.INVISIBLE);
         Utils.blockAllEvents(mRootView);
     }
@@ -119,8 +122,8 @@ abstract class BasicPage {
                 Utils.blockAllEvents(mTouchInterceptor);
                 mRootView.addView(mTouchInterceptor, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
+            mTouchInterceptor.bringToFront();
             mTouchInterceptor.setVisibility(View.VISIBLE);
-            mRootView.bringToFront();
         } else {
             if (mTouchInterceptor != null) {
                 mTouchInterceptor.setVisibility(View.GONE);
@@ -218,7 +221,11 @@ abstract class BasicPage {
     /**
      * Page 需要自己实现视图的创建
      */
-    protected abstract void onDoCreateView(OnFinishListener listener);
+    protected void onDoCreateView(OnFinishListener listener) {
+        if (listener != null) {
+            listener.onFinished();
+        }
+    }
 
     /**
      * Page 需要自己实现视图查找
@@ -228,10 +235,45 @@ abstract class BasicPage {
     }
 
     /**
+     * 获取字符串
+     */
+    protected String getString(int resId) {
+        return mPageActivity.getString(resId);
+    }
+
+    /**
+     * 获取字符串
+     */
+    protected String getString(int resId, Object... formatArgs) {
+        return mPageActivity.getString(resId, formatArgs);
+    }
+
+    /**
+     * 获取 Drawable
+     */
+    protected Drawable getDrawable(int resId) {
+        return ContextCompat.getDrawable(mPageActivity, resId);
+    }
+
+    /**
      * 设定 Tab 模式
      */
     protected void createTabHelper(int innerPageContainerId) {
         mTabHelper = new TabHelper(this, innerPageContainerId);
+    }
+
+    @Override
+    public final void onClick(View view) {
+        if (!FastClickUtils.isFastClick()) {
+            onViewClick(view);
+        }
+    }
+
+    /**
+     * 自带点击效果
+     */
+    protected void onViewClick(View view) {
+
     }
 
     // -------------------- 状态获取判断 --------------------

@@ -1,11 +1,9 @@
-package com.wei.android.lib.oneactivity.demo.page;
+package com.wei.android.lib.oneactivity.demo;
 
 import android.view.View;
 
-import com.wei.android.lib.oneactivity.annotation.BindView;
-import com.wei.android.lib.oneactivity.demo.R;
-import com.wei.android.lib.oneactivity.demo.basic.BasicPage;
-import com.wei.android.lib.oneactivity.page.PageActivity;
+import com.wei.android.lib.oneactivity.BindView;
+import com.wei.android.lib.oneactivity.PageActivity;
 
 public class TestPage extends BasicPage implements View.OnClickListener {
 
@@ -35,7 +33,9 @@ public class TestPage extends BasicPage implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
+    protected void onViewClick(View view) {
+        super.onViewClick(view);
+
         if (view == mTvTestPage) {
             new TestPage(mPageActivity).show();
             return;

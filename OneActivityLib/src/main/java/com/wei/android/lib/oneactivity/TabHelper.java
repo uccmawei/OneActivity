@@ -1,4 +1,4 @@
-package com.wei.android.lib.oneactivity.page;
+package com.wei.android.lib.oneactivity;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,9 +7,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
-import com.wei.android.lib.oneactivity.listener.OnFinishListener;
-import com.wei.android.lib.oneactivity.view.NestedScrollableHost;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.List;
 
 public class TabHelper {
 
-    private final BasicPage mPage;
+    private final PageWrapper mPage;
     private final ViewPager2 mViewPager2;
     private final List<InnerPage> mInnerPageList;
     private final InnerPageAdapter mInnerPageAdapter;
@@ -28,7 +25,7 @@ public class TabHelper {
     private InnerPage mCurrentInnerPage;
     private OnInnerPageChangeListener mOnInnerPageChangeListener;
 
-    public TabHelper(BasicPage page, int innerPageContainerId) {
+    public TabHelper(PageWrapper page, int innerPageContainerId) {
         mPage = page;
         mViewPager2 = new ViewPager2(mPage.mPageActivity);
         mInnerPageList = new ArrayList<>();
@@ -54,7 +51,7 @@ public class TabHelper {
         });
         fixOverScrollMode();
 
-        NestedScrollableHost nestedScrollableHost = new NestedScrollableHost(mPage.mPageActivity);
+        V_NestedScrollableHost nestedScrollableHost = new V_NestedScrollableHost(mPage.mPageActivity);
         nestedScrollableHost.addView(mViewPager2);
 
         ((ViewGroup) mPage.mRootView.findViewById(innerPageContainerId)).addView(nestedScrollableHost,
