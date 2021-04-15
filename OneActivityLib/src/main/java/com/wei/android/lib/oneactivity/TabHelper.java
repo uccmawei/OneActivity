@@ -262,6 +262,7 @@ public class TabHelper {
 
                     // 绑定
                     Utils.bindView(mInnerPageList.get(position), mInnerPageList.get(position).mRootView);
+                    mInnerPageList.get(position).mRootView.setVisibility(View.VISIBLE);
                     mInnerPageList.get(position).callOnPageInit();
                     if ((int) viewGroup.getTag() == position) {
                         viewGroup.addView(mInnerPageList.get(position).mRootView);
