@@ -8,6 +8,10 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
+/**
+ * 对外暴露的底层，已经做好交互封装，底部滑上来的对话框
+ */
+
 public abstract class LibBottomDialog extends Page {
 
     private static final int PAGE_FADE_TIME = 420;      // 渐变动画时长

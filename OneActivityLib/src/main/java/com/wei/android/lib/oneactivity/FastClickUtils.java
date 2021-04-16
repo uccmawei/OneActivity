@@ -2,6 +2,10 @@ package com.wei.android.lib.oneactivity;
 
 import android.os.SystemClock;
 
+/**
+ * 用于拦截同时多处点击引起的并发
+ */
+
 public class FastClickUtils {
 
     private static long sLastClickTime;

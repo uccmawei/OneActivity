@@ -10,6 +10,10 @@ import android.widget.Space;
 
 import java.util.List;
 
+/**
+ * 对外暴露的底层，已经做好交互封装，中间弹出的对话框
+ */
+
 public abstract class LibCenterDialog extends Page {
 
     private static final int PAGE_FADE_TIME = 300;      // 渐变动画时长

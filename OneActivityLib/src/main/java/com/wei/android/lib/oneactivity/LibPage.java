@@ -7,6 +7,10 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 对外暴露的底层，已经做好交互封装
+ */
+
 public abstract class LibPage extends Page {
 
     private static final int PAGE_SWIPE_TIME = 400;         // Page 页面切换动画时长

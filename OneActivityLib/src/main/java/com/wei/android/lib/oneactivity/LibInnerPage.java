@@ -2,6 +2,10 @@ package com.wei.android.lib.oneactivity;
 
 import android.widget.FrameLayout;
 
+/**
+ * 对外暴露的底层，已经做好交互封装
+ */
+
 public abstract class LibInnerPage extends InnerPage {
 
     protected FrameLayout mLayoutContainer;             // 页面视图容器
