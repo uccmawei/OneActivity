@@ -406,7 +406,7 @@ class PageManager {
         pageToCancel.onDoCancelAnimation(mPageList, new OnFinishListener() {
             @Override
             public void onFinished() {
-                doPageCancelDone(pageToCancel, pageToResume, false);
+                doPageCancelDone(pageToCancel, pageToResume, true);
             }
         }, false);
     }
