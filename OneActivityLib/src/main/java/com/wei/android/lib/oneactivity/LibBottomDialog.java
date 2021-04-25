@@ -19,6 +19,8 @@ public abstract class LibBottomDialog extends Page {
     private View mViewBackground;                       // 灰色背景
     protected FrameLayout mLayoutContainer;             // 内容归属位置
 
+    private boolean mIsAnimating;                       // 动画执行过程中不允许返回
+
     public LibBottomDialog(PageActivity pageActivity) {
         super(pageActivity);
         setTranslucentMode(true);
@@ -119,6 +121,11 @@ public abstract class LibBottomDialog extends Page {
     }
 
     @Override
+    protected boolean onBackPressed() {
+        return mIsAnimating || super.onBackPressed();
+    }
+
+    @Override
     protected void onViewClick(View view) {
         super.onViewClick(view);
 
@@ -129,7 +136,7 @@ public abstract class LibBottomDialog extends Page {
 
     // 显示页面内容
     protected void doShowAnimation() {
-
+        mIsAnimating = true;
         mRootView.post(new Runnable() {
             @Override
             public void run() {
@@ -145,6 +152,7 @@ public abstract class LibBottomDialog extends Page {
                     @Override
                     public void onAnimationEnd() {
                         blockTouch(false);
+                        mIsAnimating = false;
                     }
                 });
 

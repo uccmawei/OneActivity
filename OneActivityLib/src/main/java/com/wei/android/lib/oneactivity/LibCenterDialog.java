@@ -16,15 +16,28 @@ import java.util.List;
 
 public abstract class LibCenterDialog extends Page {
 
-    private static final int PAGE_FADE_TIME = 300;      // 渐变动画时长
+    protected static final int CANCELABLE_YES = 1;          // 都可以关闭
+    protected static final int CANCELABLE_NO = 2;           // 只能代码关闭
+    protected static final int CANCELABLE_SELF_ONLY = 3;    // 只允逻辑关闭（比如确定取消按钮）
 
-    private View mViewBackground;                       // 灰色背景
-    protected LinearLayout mLayoutContainer;            // 内容归属位置
-    private Space mSpace;                               // 键盘弹起占位
+    private static final int PAGE_FADE_TIME = 300;          // 渐变动画时长
+
+    private View mViewBackground;                           // 灰色背景
+    protected LinearLayout mLayoutContainer;                // 内容归属位置
+    private Space mSpace;                                   // 键盘弹起占位
+
+    private boolean mIsAnimating;                           // 动画执行过程中不允许返回
+
+    protected int mCancelable = CANCELABLE_YES;             // 对话框关闭模式
 
     public LibCenterDialog(PageActivity pageActivity) {
         super(pageActivity);
         setTranslucentMode(true);
+    }
+
+    public LibCenterDialog setCancelable(int cancelable) {
+        mCancelable = cancelable;
+        return this;
     }
 
     @Override
@@ -148,6 +161,11 @@ public abstract class LibCenterDialog extends Page {
     }
 
     @Override
+    protected boolean onBackPressed() {
+        return mIsAnimating || mCancelable != CANCELABLE_YES || super.onBackPressed();
+    }
+
+    @Override
     protected final void onKeyboardChange(int keyboardHeight) {
         super.onKeyboardChange(keyboardHeight);
 
@@ -161,13 +179,15 @@ public abstract class LibCenterDialog extends Page {
         super.onViewClick(view);
 
         if (view == mPageView) {
-            cancel();
+            if (mCancelable == CANCELABLE_YES) {
+                cancel();
+            }
         }
     }
 
     // 显示页面内容
     protected void doShowAnimation() {
-
+        mIsAnimating = true;
         mRootView.post(new Runnable() {
             @Override
             public void run() {
@@ -183,6 +203,7 @@ public abstract class LibCenterDialog extends Page {
                     @Override
                     public void onAnimationEnd() {
                         blockTouch(false);
+                        mIsAnimating = false;
                     }
                 });
 
