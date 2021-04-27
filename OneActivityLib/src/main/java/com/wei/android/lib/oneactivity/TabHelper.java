@@ -301,6 +301,17 @@ public class TabHelper {
     }
 
     /**
+     * 事件分发
+     */
+    protected void onReceivedEvent(Object eventObject) {
+        if (mInnerPageList != null) {
+            for (int i = 0; i < mInnerPageList.size(); i++) {
+                mInnerPageList.get(i).onReceivedEvent(eventObject);
+            }
+        }
+    }
+
+    /**
      * 回调
      */
     public interface OnInnerPageChangeListener {

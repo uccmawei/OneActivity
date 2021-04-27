@@ -156,10 +156,10 @@ class PageManager {
     private void initBasicViewLayoutSystem() {
         V_ImmersiveFrameLayout immersiveFrameLayout = new V_ImmersiveFrameLayout(mPageActivity);        // 沉浸式
         V_FixedHeightFrameLayout fixedHeightFrameLayout = new V_FixedHeightFrameLayout(mPageActivity);  // 高度锁定
-        mPageTouchInterceptor = new View(mPageActivity);                                            // 触摸交互拦截层
-        mFloatContainer = new FrameLayout(mPageActivity);                                           // 悬浮窗
-        mGrayMaskView = new View(mPageActivity);                                                    // 灰色遮罩
-        mPageListContainer = new V_SwipeBackFrameLayout(mPageActivity);                               // 滑动返回
+        mPageTouchInterceptor = new View(mPageActivity);                                                // 触摸交互拦截层
+        mFloatContainer = new FrameLayout(mPageActivity);                                               // 悬浮窗
+        mGrayMaskView = new View(mPageActivity);                                                        // 灰色遮罩
+        mPageListContainer = new V_SwipeBackFrameLayout(mPageActivity);                                 // 滑动返回
 
         // 默认效果
         mPageTouchInterceptor.setAlpha(0.0f);
@@ -700,6 +700,17 @@ class PageManager {
         }
 
         return mPageList.get(mPageList.size() - 1);
+    }
+
+    /**
+     * 事件分发
+     */
+    protected void sendEvent(Object eventObject) {
+        if (mPageList != null) {
+            for (int i = 0; i < mPageList.size(); i++) {
+                mPageList.get(i).onReceivedEvent(eventObject);
+            }
+        }
     }
 
     /**

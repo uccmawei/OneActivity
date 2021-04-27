@@ -235,6 +235,22 @@ abstract class PageWrapper implements View.OnClickListener {
     }
 
     /**
+     * 事件分发
+     */
+    protected void onReceivedEvent(Object eventObject) {
+        if (mTabHelper != null) {
+            mTabHelper.onReceivedEvent(eventObject);
+        }
+    }
+
+    /**
+     * 事件分发
+     */
+    protected void sendEvent(Object eventObject) {
+        mPageActivity.getPageManager().sendEvent(eventObject);
+    }
+
+    /**
      * 获取字符串
      */
     protected String getString(int resId) {
