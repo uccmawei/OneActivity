@@ -16,9 +16,8 @@ import java.util.List;
 
 public abstract class LibCenterDialog extends Page {
 
-    protected static final int CANCELABLE_YES = 1;          // 都可以关闭
-    protected static final int CANCELABLE_NO = 2;           // 只能代码关闭
-    protected static final int CANCELABLE_SELF_ONLY = 3;    // 只允逻辑关闭（比如确定取消按钮）
+    private boolean mCancelableByClickOutside = true;      // 点击空白处可以关闭
+    private boolean mCancelableByOnBackPressed = true;     // 返回按钮可以关闭
 
     private static final int PAGE_FADE_TIME = 300;          // 渐变动画时长
 
@@ -28,15 +27,18 @@ public abstract class LibCenterDialog extends Page {
 
     private boolean mIsAnimating;                           // 动画执行过程中不允许返回
 
-    protected int mCancelable = CANCELABLE_YES;             // 对话框关闭模式
-
     public LibCenterDialog(PageActivity pageActivity) {
         super(pageActivity);
         setTranslucentMode(true);
     }
 
-    public LibCenterDialog setCancelable(int cancelable) {
-        mCancelable = cancelable;
+    public LibCenterDialog setCancelableByClickOutside(boolean cancelableByClickOutside) {
+        mCancelableByClickOutside = cancelableByClickOutside;
+        return this;
+    }
+
+    public LibCenterDialog setCancelableByOnBackPressed(boolean cancelableByOnBackPressed) {
+        mCancelableByOnBackPressed = cancelableByOnBackPressed;
         return this;
     }
 
@@ -162,7 +164,7 @@ public abstract class LibCenterDialog extends Page {
 
     @Override
     protected boolean onBackPressed() {
-        return mIsAnimating || mCancelable != CANCELABLE_YES || super.onBackPressed();
+        return mIsAnimating || !mCancelableByOnBackPressed || super.onBackPressed();
     }
 
     @Override
@@ -178,10 +180,8 @@ public abstract class LibCenterDialog extends Page {
     protected void onViewClick(View view) {
         super.onViewClick(view);
 
-        if (view == mPageView) {
-            if (mCancelable == CANCELABLE_YES) {
-                cancel();
-            }
+        if (view == mPageView && mCancelableByClickOutside) {
+            cancel();
         }
     }
 

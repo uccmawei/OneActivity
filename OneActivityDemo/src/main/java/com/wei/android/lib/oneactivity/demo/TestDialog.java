@@ -1,5 +1,7 @@
 package com.wei.android.lib.oneactivity.demo;
 
+import android.view.View;
+
 import com.wei.android.lib.oneactivity.PageActivity;
 
 public class TestDialog extends BasicCenterDialog {
@@ -19,5 +21,17 @@ public class TestDialog extends BasicCenterDialog {
         doShowAnimation();
 
         Utils.showKeyboard(findViewById(R.id.mEditText));
+    }
+
+    @Override
+    protected void onPageInit() {
+        super.onPageInit();
+
+        findViewById(R.id.mLayoutButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
     }
 }
