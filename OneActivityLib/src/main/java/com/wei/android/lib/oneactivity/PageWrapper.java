@@ -115,8 +115,8 @@ abstract class PageWrapper implements View.OnClickListener {
     /**
      * 触摸拦截
      */
-    protected void blockTouch(boolean visible) {
-        if (visible) {
+    protected void setTouchBlock(boolean touchBlock) {
+        if (touchBlock) {
             if (mTouchInterceptor == null) {
                 mTouchInterceptor = new View(mPageActivity);
                 Utils.blockAllEvents(mTouchInterceptor);
@@ -255,6 +255,13 @@ abstract class PageWrapper implements View.OnClickListener {
      */
     protected String getString(int resId) {
         return mPageActivity.getString(resId);
+    }
+
+    /**
+     * 获取颜色
+     */
+    protected int getColor(int resId) {
+        return ContextCompat.getColor(mPageActivity, resId);
     }
 
     /**

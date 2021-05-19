@@ -61,7 +61,7 @@ public abstract class LibBottomDialog extends Page {
         relativeLayout.addView(mLayoutContainer);
         Utils.blockAllEvents(mLayoutContainer);
         setPageView(relativeLayout);
-        blockTouch(true);
+        setTouchBlock(true);
         super.onDoCreateView(new OnFinishListener() {
             @Override
             public void onFinished() {
@@ -164,7 +164,7 @@ public abstract class LibBottomDialog extends Page {
 
                     @Override
                     public void onAnimationEnd() {
-                        blockTouch(false);
+                        setTouchBlock(false);
                         mIsAnimating = false;
                     }
                 });

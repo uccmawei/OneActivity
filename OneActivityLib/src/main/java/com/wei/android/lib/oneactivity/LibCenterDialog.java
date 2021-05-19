@@ -85,7 +85,7 @@ public abstract class LibCenterDialog extends Page {
         frameLayout.addView(mViewBackground);
         frameLayout.addView(linearLayout);
         setPageView(frameLayout);
-        blockTouch(true);
+        setTouchBlock(true);
         super.onDoCreateView(new OnFinishListener() {
             @Override
             public void onFinished() {
@@ -202,7 +202,7 @@ public abstract class LibCenterDialog extends Page {
 
                     @Override
                     public void onAnimationEnd() {
-                        blockTouch(false);
+                        setTouchBlock(false);
                         mIsAnimating = false;
                     }
                 });
