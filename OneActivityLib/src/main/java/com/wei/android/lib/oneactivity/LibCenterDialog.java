@@ -16,8 +16,8 @@ import java.util.List;
 
 public abstract class LibCenterDialog extends Page {
 
-    private boolean mCancelableByClickOutside = true;      // 点击空白处可以关闭
-    private boolean mCancelableByOnBackPressed = true;     // 返回按钮可以关闭
+    private boolean mCancelableByClickOutside = true;       // 点击空白处可以关闭
+    private boolean mCancelableByOnBackPressed = true;      // 返回按钮可以关闭
 
     private static final int PAGE_FADE_TIME = 300;          // 渐变动画时长
 

@@ -1,7 +1,5 @@
 package com.wei.android.lib.oneactivity;
 
-import android.widget.FrameLayout;
-
 import java.util.List;
 
 /**
@@ -42,17 +40,17 @@ abstract class Page extends PageWrapper {
     }
 
     /**
-     * 获取存放 Page 的容器，一般拿来获取尺寸
+     * 获取尺寸
      */
-    protected FrameLayout getRootPageContainer() {
-        return mPageActivity.getPageManager().getRootPageContainer();
+    protected int getPageWindowWidth() {
+        return mPageActivity.getPageManager().getPageWindowWidth();
     }
 
     /**
-     * 获取存放悬浮窗页面的空间
+     * 获取尺寸
      */
-    protected FrameLayout getFloatContainer() {
-        return mPageActivity.getPageManager().getFloatContainer();
+    protected int getPageWindowHeight() {
+        return mPageActivity.getPageManager().getPageWindowHeight();
     }
 
     /**

@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 
 public abstract class LibInnerPage extends InnerPage {
 
-    protected FrameLayout mLayoutContainer;             // 页面视图容器
+    protected FrameLayout mLayoutContainer;                 // 页面视图容器
 
     protected LibInnerPage(PageActivity pageActivity) {
         super(pageActivity);

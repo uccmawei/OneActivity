@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -29,7 +28,6 @@ class PageManager {
     private final List<Page> mPageList;                             // Page 栈
 
     private V_SwipeBackFrameLayout mPageListContainer;              // 堆放 Page 页面的容器，并实现了滑动返回反馈机制
-    private FrameLayout mFloatContainer;                            // 悬浮窗容器空间
     private View mPageTouchInterceptor;                             // 拦截 Page 切换中的时候的触摸事件
     private View mGrayMaskView;                                     // 灰色遮罩，滑动返回用
 
@@ -157,7 +155,6 @@ class PageManager {
         V_ImmersiveFrameLayout immersiveFrameLayout = new V_ImmersiveFrameLayout(mPageActivity);        // 沉浸式
         V_FixedHeightFrameLayout fixedHeightFrameLayout = new V_FixedHeightFrameLayout(mPageActivity);  // 高度锁定
         mPageTouchInterceptor = new View(mPageActivity);                                                // 触摸交互拦截层
-        mFloatContainer = new FrameLayout(mPageActivity);                                               // 悬浮窗
         mGrayMaskView = new View(mPageActivity);                                                        // 灰色遮罩
         mPageListContainer = new V_SwipeBackFrameLayout(mPageActivity);                                 // 滑动返回
 
@@ -171,7 +168,6 @@ class PageManager {
         // 层次绑定
         fixedHeightFrameLayout.addView(mPageListContainer);
         fixedHeightFrameLayout.addView(mGrayMaskView);
-        fixedHeightFrameLayout.addView(mFloatContainer);
         fixedHeightFrameLayout.addView(mPageTouchInterceptor);
 
         // 塞入 Activity 中
@@ -208,17 +204,17 @@ class PageManager {
     }
 
     /**
-     * 获取存放 Page 的容器，一般拿来获取尺寸
+     * 获取尺寸
      */
-    protected FrameLayout getRootPageContainer() {
-        return mPageListContainer;
+    protected int getPageWindowWidth() {
+        return mPageListContainer.getWidth();
     }
 
     /**
-     * 获取存放悬浮窗页面的空间
+     * 获取尺寸
      */
-    protected FrameLayout getFloatContainer() {
-        return mFloatContainer;
+    protected int getPageWindowHeight() {
+        return mPageListContainer.getHeight();
     }
 
     /**
@@ -601,7 +597,7 @@ class PageManager {
         }
 
         // 判断是否需要滑动返回确认，获取页面宽度
-        int width = mTempSwipingPage.getRootPageContainer().getWidth();
+        int width = mTempSwipingPage.getPageWindowWidth();
         boolean doSwipeToCancelPage = isFastSwipe || mTempMoveDistance > (width / 3.0f);
 
         // 恢复界面，看下是否需要触发确认回调
@@ -651,7 +647,7 @@ class PageManager {
         }
 
         mGrayMaskView.setVisibility(View.VISIBLE);
-        int width = mTempSwipingPage.getRootPageContainer().getWidth();
+        int width = mTempSwipingPage.getPageWindowWidth();
         mTempSwipingPage.mRootView.setTranslationX(moveDistance);
         mGrayMaskView.setTranslationX(moveDistance - width);
         mGrayMaskView.setAlpha((1.0f * (width - moveDistance)) / width);

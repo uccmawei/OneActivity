@@ -78,7 +78,7 @@ public abstract class LibPage extends Page {
                 mRootView.setVisibility(View.VISIBLE);
 
                 // 开始动画
-                final int width = getRootPageContainer().getWidth();
+                final int width = getPageWindowWidth();
                 Utils.makeDecelerateAnimation(width, 0, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
@@ -131,7 +131,7 @@ public abstract class LibPage extends Page {
             public void run() {
 
                 // 开始动画
-                final int width = getRootPageContainer().getWidth();
+                final int width = getPageWindowWidth();
                 Utils.makeDecelerateAnimation(0, width, PAGE_SWIPE_TIME, new Utils.PageAnimationListener() {
                     @Override
                     public void onAnimationUpdate(int from, int to, int animValue) {
